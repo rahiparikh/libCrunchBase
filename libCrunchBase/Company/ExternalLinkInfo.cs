@@ -32,7 +32,15 @@ namespace CrunchBase.Company
         public static ExternalLinkInfo[] ParseExternalLinksInfo(Company CompanyObject)
         {
             dynamic _SerializedInfo = CompanyObject.GetSerializedInfo();
-            int external_links_array_length = _SerializedInfo.external_links.Count;
+            int external_links_array_length;
+            try
+            {
+                external_links_array_length = _SerializedInfo.external_links.Count;
+            }
+            catch
+            {
+                return null;
+            }
             List<ExternalLinkInfo> rInfo = new List<ExternalLinkInfo>();
             for(int i = 0; i < external_links_array_length ; i++)
             {
@@ -43,17 +51,15 @@ namespace CrunchBase.Company
 
         private void PopulateVideoEmbedsInfo()
         {
-            string external_url = _SerializedExternalLinkInfo.external_url;
-            if(string.IsNullOrEmpty(external_url))
+            if (string.IsNullOrEmpty(_SerializedExternalLinkInfo.external_url))
                 AddToDictionary("external_url", null);
             else
-                AddToDictionary("external_url", external_url);
+                AddToDictionary("external_url", _SerializedExternalLinkInfo.external_url);
 
-            string title = _SerializedExternalLinkInfo.title;
-            if (string.IsNullOrEmpty(title))
-                AddToDictionary("title", title);
+            if (string.IsNullOrEmpty(_SerializedExternalLinkInfo.title))
+                AddToDictionary("title", null);
             else
-                AddToDictionary("title", title);
+                AddToDictionary("title", _SerializedExternalLinkInfo.title);
         }
 
         private void AddToDictionary(string Key, string Value)

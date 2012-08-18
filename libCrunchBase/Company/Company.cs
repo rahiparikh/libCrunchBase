@@ -52,17 +52,8 @@ namespace CrunchBase.Company
             serializer.RegisterConverters(new[] { new DynamicJsonConverter() });
             _SerializedInfo = serializer.Deserialize(jsonCompanyInfo, typeof(object)) as dynamic;
 
-            if (_SerializedInfo.funding_rounds.Count > 0)
-                Console.WriteLine("funding_rounds found " + CompanyName);
-
             if (_SerializedInfo.investments.Count > 0)
                 Console.WriteLine("investments found " + CompanyName);
-
-            if (_SerializedInfo.acquisitions.Count > 0)
-                Console.WriteLine("acquisitions found " + CompanyName);
-
-            if (_SerializedInfo.screenshots.Count > 0)
-                Console.WriteLine("screenshots found " + CompanyName);
         }
 
         public dynamic GetSerializedInfo()
@@ -260,15 +251,134 @@ namespace CrunchBase.Company
         }
         #endregion
 
+        #region FundingRoundsInfo
+        private FundingRoundsInfo[] _FundingRoundsInfo = null;
+        public FundingRoundsInfo[] ParseFundingRoundsInfo()
+        {
+            FundingRoundsInfo[] frInfo = FundingRoundsInfo.ParseFundingRoundsInfo(this);
+            this._FundingRoundsInfo = frInfo;
+            return this._FundingRoundsInfo;
+        }
+
+        public FundingRoundsInfo[] AccessFundingRoundsInfo()
+        {
+            if (_FundingRoundsInfo == null)
+            {
+                new InformationNotParsed("FundingRounds Information has not been parsed yet. Please parse the information before accessing.");
+                return null;
+            }
+            else
+            {
+                return _FundingRoundsInfo;
+            }
+        }
+        #endregion
+
+        #region ScreenshotsInfo
+        private ScreenshotsInfo[] _ScreenshotsInfo = null;
+        public ScreenshotsInfo[] ParseScreenshotsInfo()
+        {
+            ScreenshotsInfo[] frInfo = ScreenshotsInfo.ParseScreenshotsInfo(this);
+            this._ScreenshotsInfo = frInfo;
+            return this._ScreenshotsInfo;
+        }
+
+        public ScreenshotsInfo[] AccessScreenshotsInfo()
+        {
+            if (_ScreenshotsInfo == null)
+            {
+                new InformationNotParsed("Screenshots Information has not been parsed yet. Please parse the information before accessing.");
+                return null;
+            }
+            else
+            {
+                return _ScreenshotsInfo;
+            }
+        }
+        #endregion
+
+        #region AcquisitionInfo
+        private AcquisitionInfo[] _AcquisitionInfo = null;
+        public AcquisitionInfo[] ParseAcquisitionInfo()
+        {
+            AcquisitionInfo[] frInfo = AcquisitionInfo.ParseAcquisitionInfo(this);
+            this._AcquisitionInfo = frInfo;
+            return this._AcquisitionInfo;
+        }
+
+        public AcquisitionInfo[] AccessAcquisitionInfo()
+        {
+            if (_AcquisitionInfo == null)
+            {
+                new InformationNotParsed("Acquisition Information has not been parsed yet. Please parse the information before accessing.");
+                return null;
+            }
+            else
+            {
+                return _AcquisitionInfo;
+            }
+        }
+        #endregion
+
+        #region ProductInfo
+        private ProductInfo[] _ProductInfo = null;
+        public ProductInfo[] ParseProductInfo()
+        {
+            ProductInfo[] pInfo = ProductInfo.ParseProductInfo(this);
+            this._ProductInfo = pInfo;
+            return this._ProductInfo;
+        }
+
+        public ProductInfo[] AccessProductInfo()
+        {
+            if (_ProductInfo == null)
+            {
+                new InformationNotParsed("Product Information has not been parsed yet. Please parse the information before accessing.");
+                return null;
+            }
+            else
+            {
+                return _ProductInfo;
+            }
+        }
+        #endregion
+
+        #region CompetitorInfo
+        private CompetitorInfo[] _CompetitorInfo = null;
+        public CompetitorInfo[] ParseCompetitorInfo()
+        {
+            CompetitorInfo[] cInfo = CompetitorInfo.ParseCompetitorInfo(this);
+            this._CompetitorInfo = cInfo;
+            return this._CompetitorInfo;
+        }
+
+        public CompetitorInfo[] AccessCompetitorInfo()
+        {
+            if (_CompetitorInfo == null)
+            {
+                new InformationNotParsed("Competitor Information has not been parsed yet. Please parse the information before accessing.");
+                return null;
+            }
+            else
+            {
+                return _CompetitorInfo;
+            }
+        }
+        #endregion
+
         public void ParseAll()
         {
-            this.ParseCompanyInfo();
-            this.ParseRelationshipInfo();
-            this.ParseProvidershipsInfo();
-            this.ParseOfficeInfo();
-            this.ParseMilestoneInfo();
-            this.ParseVideoEmbedInfo();
-            this.ParseExternalLinkInfo();
+            _CompanyInfo = this.ParseCompanyInfo();
+            _RelationshipInfo = this.ParseRelationshipInfo();
+            _ProvidershipsInfo = this.ParseProvidershipsInfo();
+            _OfficeInfo = this.ParseOfficeInfo();
+            _MilestoneInfo = this.ParseMilestoneInfo();
+            _VideoEmbedInfo = this.ParseVideoEmbedInfo();
+            _ExternalLinkInfo = this.ParseExternalLinkInfo();
+            _FundingRoundsInfo = this.ParseFundingRoundsInfo();
+            _AcquisitionInfo = this.ParseAcquisitionInfo();
+            _ProductInfo = this.ParseProductInfo();
+            _CompetitorInfo = this.ParseCompetitorInfo();
         }
 
     }

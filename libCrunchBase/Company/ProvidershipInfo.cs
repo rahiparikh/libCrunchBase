@@ -32,7 +32,16 @@ namespace CrunchBase.Company
         public static ProvidershipInfo[] ParseProvidershipsInfo(Company CompanyObject)
         {
             dynamic _SerializedInfo = CompanyObject.GetSerializedInfo();
-            int providerships_array_length = _SerializedInfo.providerships.Count;
+            int providerships_array_length;
+            try
+            {
+                providerships_array_length = _SerializedInfo.providerships.Count;
+            }
+            catch
+            {
+                return null;
+            }
+
             List<ProvidershipInfo> rInfo = new List<ProvidershipInfo>();
             for(int i = 0; i < providerships_array_length ; i++)
             {

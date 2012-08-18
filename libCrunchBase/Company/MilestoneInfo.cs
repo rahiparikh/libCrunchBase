@@ -32,7 +32,15 @@ namespace CrunchBase.Company
         public static MilestoneInfo[] ParseMilestonesInfo(Company CompanyObject)
         {
             dynamic _SerializedInfo = CompanyObject.GetSerializedInfo();
-            int milestones_array_length = _SerializedInfo.milestones.Count;
+            int milestones_array_length;
+            try
+            {
+                milestones_array_length = _SerializedInfo.milestones.Count;
+            }
+            catch
+            {
+                return null;
+            }
             List<MilestoneInfo> rInfo = new List<MilestoneInfo>();
             for(int i = 0; i < milestones_array_length ; i++)
             {

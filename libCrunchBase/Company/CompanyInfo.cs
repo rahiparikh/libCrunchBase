@@ -25,6 +25,9 @@ namespace CrunchBase.Company
 
         private CompanyInfo(Company CompanyObject)
         {
+            if (CompanyObject.GetSerializedInfo() == null)
+                return;
+
             _SerializedInfo = CompanyObject.GetSerializedInfo();
             PopulateCompanyInfo();
             _Keys = GetKeys();
@@ -175,11 +178,33 @@ namespace CrunchBase.Company
             else
                 AddToDictionary("total_money_raised", total_money_raised);
 
-            string acquisition = _SerializedInfo.acquisition;
-            if(string.IsNullOrEmpty(acquisition))
-                AddToDictionary("acquisition", null);
-            else
-                AddToDictionary("acquisition", acquisition);
+            try
+            {
+                string acquisition = _SerializedInfo.acquisition;
+                AddToDictionary("acquisition_price_amount", null);
+                AddToDictionary("acquisition_price_currency_code", null);
+                AddToDictionary("acquisition_term_code", null);
+                AddToDictionary("acquisition_source_url", null);
+                AddToDictionary("acquisition_source_description", null);
+                AddToDictionary("acquisition_date", null);
+                AddToDictionary("acquisition_acquiring_company_name", null);
+                AddToDictionary("acquisition_acquiring_company_permalink", null);
+                AddToDictionary("acquisition_acquiring_company_image", null);
+                AddToDictionary("acquisition_acquiring_company_image_attribution", null);
+            }
+            catch
+            {
+                AddToDictionary("acquisition_price_amount", _SerializedInfo.acquisition.price_amount.ToString());
+                AddToDictionary("acquisition_price_currency_code", _SerializedInfo.acquisition.price_currency_code);
+                AddToDictionary("acquisition_term_code", _SerializedInfo.acquisition.term_code);
+                AddToDictionary("acquisition_source_url", _SerializedInfo.acquisition.source_url);
+                AddToDictionary("acquisition_source_description", _SerializedInfo.acquisition_source_description);
+                AddToDictionary("acquisition_date", new DateTime(_SerializedInfo.acquisition.acquired_year,_SerializedInfo.acquisition.acquired_month,_SerializedInfo.acquisition.acquired_day).ToShortDateString());
+                AddToDictionary("acquisition_acquiring_company_name", _SerializedInfo.acquisition.acquiring_company.name);
+                AddToDictionary("acquisition_acquiring_company_permalink", _SerializedInfo.acquisition.acquiring_company.permalink);
+                AddToDictionary("acquisition_acquiring_company_image", _SerializedInfo.acquisition.acquiring_company.image.available_sizes[0][1]);
+                AddToDictionary("acquisition_acquiring_company_image_attribution", _SerializedInfo.acquisition.acquiring_company.image.attribution);
+            }
 
             string ipo = _SerializedInfo.ipo;
             if (string.IsNullOrEmpty(ipo))

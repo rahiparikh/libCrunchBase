@@ -49,14 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Company\AcquisitionInfo.cs" />
     <Compile Include="Company\CompanyInfo.cs" />
     <Compile Include="Company\Company.cs" />
+    <Compile Include="Company\CompetitorInfo.cs" />
     <Compile Include="Company\ExternalLinkInfo.cs" />
-    <Compile Include="Company\ImageInfo.cs" />
+    <Compile Include="Company\FundingRoundsInfo.cs" />
     <Compile Include="Company\MilestoneInfo.cs" />
     <Compile Include="Company\OfficeInfo.cs" />
+    <Compile Include="Company\ProductInfo.cs" />
     <Compile Include="Company\ProvidershipInfo.cs" />
     <Compile Include="Company\RelationshipInfo.cs" />
+    <Compile Include="Company\ScreenshotsInfo.cs" />
     <Compile Include="Company\VideoEmbedInfo.cs" />
     <Compile Include="DynamicJsonConverter.cs" />
     <Compile Include="Exceptions\InformationNotParsed.cs" />

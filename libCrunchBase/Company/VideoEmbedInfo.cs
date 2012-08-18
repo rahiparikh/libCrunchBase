@@ -32,8 +32,16 @@ namespace CrunchBase.Company
         public static VideoEmbedInfo[] ParseVideoEmbedsInfo(Company CompanyObject)
         {
             dynamic _SerializedInfo = CompanyObject.GetSerializedInfo();
-            int video_embeds_array_length = _SerializedInfo.video_embeds.Count;
-            List<VideoEmbedInfo> rInfo = new List<VideoEmbedInfo>();
+            int video_embeds_array_length;
+            try
+            {
+                video_embeds_array_length = _SerializedInfo.video_embeds.Count;
+            }
+            catch
+            {
+                return null;
+            }
+                List<VideoEmbedInfo> rInfo = new List<VideoEmbedInfo>();
             for(int i = 0; i < video_embeds_array_length ; i++)
             {
                 rInfo.Add(new VideoEmbedInfo(_SerializedInfo.video_embeds[i]));

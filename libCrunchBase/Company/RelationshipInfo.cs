@@ -34,7 +34,15 @@ namespace CrunchBase.Company
         public static RelationshipInfo[] ParseRelationshipInfo(Company CompanyObject)
         {
             dynamic _SerializedInfo = CompanyObject.GetSerializedInfo();
-            int relationship_array_length = _SerializedInfo.relationships.Count;
+            int relationship_array_length;
+            try
+            {
+                relationship_array_length= _SerializedInfo.relationships.Count;
+            }
+            catch
+            {
+                return null;
+            }
             List<RelationshipInfo> rInfo = new List<RelationshipInfo>();
             for(int i = 0; i < relationship_array_length ; i++)
             {
@@ -59,31 +67,31 @@ namespace CrunchBase.Company
 
             string first_name = _SerializedRelationshipInfo.person.first_name;
             if(string.IsNullOrEmpty(first_name))
-                AddToDictionary("first_name", null);
+                AddToDictionary("person_first_name", null);
             else
-                AddToDictionary("first_name", first_name);
+                AddToDictionary("person_first_name", first_name);
 
             string last_name = _SerializedRelationshipInfo.person.last_name;
             if(string.IsNullOrEmpty(last_name))
-                AddToDictionary("last_name", null);
+                AddToDictionary("person_last_name", null);
             else
-                AddToDictionary("last_name", last_name);
+                AddToDictionary("person_last_name", last_name);
 
             string permalink = _SerializedRelationshipInfo.person.permalink;
             if(string.IsNullOrEmpty(permalink))
-                AddToDictionary("permalink", null);
+                AddToDictionary("person_permalink", null);
             else
-                AddToDictionary("permalink", permalink);
+                AddToDictionary("person_permalink", permalink);
 
             if(_SerializedRelationshipInfo.person.image == null)
-                AddToDictionary("image", null);
+                AddToDictionary("person_image", null);
             else
-                AddToDictionary("image", _SerializedRelationshipInfo.person.image.available_sizes[0][1]);
+                AddToDictionary("person_image", _SerializedRelationshipInfo.person.image.available_sizes[0][1]);
 
             if (_SerializedRelationshipInfo.person.image == null || string.IsNullOrEmpty(_SerializedRelationshipInfo.person.image.attribution))
-                AddToDictionary("attribution", null);
+                AddToDictionary("person_image_attribution", null);
             else
-                AddToDictionary("attribution", _SerializedRelationshipInfo.person.image.attribution.Replace("<p>","").Replace("</p>",""));
+                AddToDictionary("person_image_attribution", _SerializedRelationshipInfo.person.image.attribution.Replace("<p>", "").Replace("</p>", ""));
         }
 
         private void AddToDictionary(string Key, string Value)

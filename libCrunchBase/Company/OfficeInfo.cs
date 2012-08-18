@@ -32,7 +32,15 @@ namespace CrunchBase.Company
         public static OfficeInfo[] ParseOfficeInfo(Company CompanyObject)
         {
             dynamic _SerializedInfo = CompanyObject.GetSerializedInfo();
-            int offices_array_length = _SerializedInfo.offices.Count;
+            int offices_array_length;
+            try
+            {
+                offices_array_length = _SerializedInfo.offices.Count;
+            }
+            catch
+            {
+                return null;
+            }
             List<OfficeInfo> oInfo = new List<OfficeInfo>();
             for (int i = 0; i < offices_array_length; i++)
             {
@@ -43,59 +51,51 @@ namespace CrunchBase.Company
 
         private void PopulateOfficeInfo()
         {
-            string description = _SerializedOfficeInfo.description;
-            if (string.IsNullOrEmpty(description.ToString()))
-                AddToDictionary("is_past", null);
+            if (string.IsNullOrEmpty(_SerializedOfficeInfo.description))
+                AddToDictionary("description", null);
             else
-                AddToDictionary("is_past", description);
+                AddToDictionary("description", _SerializedOfficeInfo.description);
 
-            string address1 = _SerializedOfficeInfo.address1;
-            if (string.IsNullOrEmpty(address1))
-                AddToDictionary("title", null);
+            if (string.IsNullOrEmpty(_SerializedOfficeInfo.address1))
+                AddToDictionary("address1", null);
             else
-                AddToDictionary("title", address1);
+                AddToDictionary("address1", _SerializedOfficeInfo.address1);
 
-            string address2 = _SerializedOfficeInfo.address2;
-            if (string.IsNullOrEmpty(address2))
-                AddToDictionary("first_name", null);
+            if (string.IsNullOrEmpty(_SerializedOfficeInfo.address2))
+                AddToDictionary("address2", null);
             else
-                AddToDictionary("first_name", address2);
+                AddToDictionary("address2", _SerializedOfficeInfo.address2);
 
-            string zip_code = _SerializedOfficeInfo.zip_code;
-            if (string.IsNullOrEmpty(zip_code))
-                AddToDictionary("last_name", null);
+            if (string.IsNullOrEmpty(_SerializedOfficeInfo.zip_code))
+                AddToDictionary("zip_code", null);
             else
-                AddToDictionary("last_name", zip_code);
+                AddToDictionary("zip_code", _SerializedOfficeInfo.zip_code);
 
-            string city = _SerializedOfficeInfo.city;
-            if (string.IsNullOrEmpty(city))
-                AddToDictionary("permalink", null);
+            if (string.IsNullOrEmpty(_SerializedOfficeInfo.city))
+                AddToDictionary("city", null);
             else
-                AddToDictionary("permalink", city);
+                AddToDictionary("city", _SerializedOfficeInfo.city);
 
             string state_code = _SerializedOfficeInfo.state_code;
-            if (_SerializedOfficeInfo.person.image == null)
-                AddToDictionary("image", null);
+            if (_SerializedOfficeInfo.state_code == null)
+                AddToDictionary("state_code", null);
             else
-                AddToDictionary("image", state_code);
+                AddToDictionary("state_code", state_code);
 
-            string country_code = _SerializedOfficeInfo.country_code;
-            if (_SerializedOfficeInfo.person.image == null)
-                AddToDictionary("image", null);
+            if (_SerializedOfficeInfo.country_code == null)
+                AddToDictionary("country_code", null);
             else
-                AddToDictionary("image", country_code);
+                AddToDictionary("country_code", _SerializedOfficeInfo.country_code);
 
-            string latitude = _SerializedOfficeInfo.latitude;
-            if (_SerializedOfficeInfo.person.image == null)
-                AddToDictionary("image", null);
+            if (_SerializedOfficeInfo.latitude == null)
+                AddToDictionary("latitude", null);
             else
-                AddToDictionary("image", latitude);
+                AddToDictionary("latitude", _SerializedOfficeInfo.latitude.ToString());
 
-            string longitude = _SerializedOfficeInfo.longitude;
-            if (_SerializedOfficeInfo.person.image == null)
-                AddToDictionary("image", null);
+            if (_SerializedOfficeInfo.longitude == null)
+                AddToDictionary("longitude", null);
             else
-                AddToDictionary("image", longitude);
+                AddToDictionary("longitude", _SerializedOfficeInfo.longitude.ToString());
         }
 
         private void AddToDictionary(string Key, string Value)
